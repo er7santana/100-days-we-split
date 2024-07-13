@@ -16,13 +16,20 @@ struct ContentView: View {
     
     let tipPercentages = [10, 15, 20, 25, 0]
     
-    var totalPerPerson: Double {
-        
-        let peopleCount = Double(numberOfPeople + 2)
+    var totalCheckAmount: Double {
         let tipSelection = Double(tipPercentage)
         
         let tipValue = checkAmount / 100 * tipSelection
         let grandTotal = checkAmount + tipValue
+        
+        return grandTotal
+    }
+    
+    var totalPerPerson: Double {
+        
+        let peopleCount = Double(numberOfPeople + 2)
+        let grandTotal = totalCheckAmount
+        
         let amountPerPerson = grandTotal / peopleCount
         
         return amountPerPerson
@@ -50,7 +57,12 @@ struct ContentView: View {
                             Text($0, format: .percent)
                         }
                     }
-                    .pickerStyle(.segmented)
+//                    .pickerStyle(.segmented)
+                    .pickerStyle(.navigationLink)
+                }
+                
+                Section("Total Amount for the check") {
+                    Text(totalCheckAmount, format: .currency(code: Locale.current.currency?.identifier ?? "BRL"))
                 }
                 
                 Section("Amount per person") {
